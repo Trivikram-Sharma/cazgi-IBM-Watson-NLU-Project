@@ -35,9 +35,10 @@ app.get("/",(req,res)=>{
     res.render('index.html');
   });
 
+  ////////////////////
 app.get("/url/emotion", (req,res) => {
     let analyzeParams = {
-        'url' : req.url,
+        'url' : req.query.url,
         'features':{
             'emotion':{
                 'document':'false'
@@ -48,20 +49,23 @@ app.get("/url/emotion", (req,res) => {
         let NLUInstance = getNLUInstance();
         NLUInstance.analyze(analyzeParams).then(
             analysisResults =>{
-               return res.send(analysisResults['emotion']['document']['emotion']);
+                console.log(analysisResults);
+               return res.send(analysisResults);
             }
 
         ).catch(
             err=>{
-                return res.send(err);
+                console.log(err);
             }
         );
    // return res.send({"happy":"90","sad":"10"});
 });
 
+////////////////////////////
+
 app.get("/url/sentiment", (req,res) => {
     let analyzeParams = {
-        'url': req.url,
+        'url': req.query.url,
         'features':{
             'sentiment':{
 
@@ -71,19 +75,22 @@ app.get("/url/sentiment", (req,res) => {
     let NLUInstance = getNLUInstance();
     NLUInstance.analyze(analyzeParams).then(
         analysisResults=>{
-            return res.send(analysisResults['sentiment']['document']);
+            console.log(analysisResults);
+            return res.send(analysisResults);
         }
     ).catch(
         err=>{
-            return res.send(err);
+            console.log(err);
         }
     );
     //return res.send("url sentiment for "+req.query.url);
 });
 
+//////////////////////////////////////////
+
 app.get("/text/emotion", (req,res) => {
     let analyzeParams = {
-        'text': req.params.text,
+        'text': req.query.text,
         'features':{
             'emotion':{
                 'document':'false'
@@ -93,31 +100,37 @@ app.get("/text/emotion", (req,res) => {
     let NLUInstance = getNLUInstance();
     NLUInstance.analyze(analyzeParams).then(
         analysisResults=>{
-            return res.send(analysisResults['emotion']['document']['emotion']);
+            console.log(analysisResults);
+            return res.send(analysisResults);
         }
     ).catch(
         err=>{
-            return res.send(err);
+            console.log(err);
         }
     );
     //return res.send({"happy":"10","sad":"90"});
 });
 
+////////////////////////////////////////
+
 app.get("/text/sentiment", (req,res) => {
    let analyzeParams = {
-       'text' : req.params.text,
+       'text' : req.query.text,
        'features':{
-           'sentiment':{}
+           'sentiment':{
+           }
        }
    }
    let NLUInstance = getNLUInstance();
    NLUInstance.analyze(analyzeParams).then(
        analysisResults=>{
-           return res.send(analysisResults['sentiment']['document']);
+        //console.log(analysisResults);    
+        //console.log(JSON.stringify(analysisResults, null, 2));
+        return res.send(analysisResults);
        }
    ).catch(
        err=>{
-           return res.send(err);
+           console.log(err);
        }
    ); 
    

@@ -45,19 +45,21 @@ class App extends React.Component {
     }
     ret = axios.get(url);
     ret.then((response)=>{
-
       //Include code here to check the sentiment and fomrat the data accordingly
-
-      this.setState({sentimentOutput:response.data});
-      let output = response.data;
-      if(response.data['label'] === "positive") {
-        output = <div style={{color:"green",fontSize:20}}>{response.data}</div>
-      } else if (response.data['label'] === "negative"){
-        output = <div style={{color:"red",fontSize:20}}>{response.data}</div>
+      //let respData = response.data.result;
+      //this.setState({sentimentOutput:response.data});
+      let output = response.data.result.sentiment.document.label;
+      console.log(output);
+      if(output === "positive") {
+        output = <span style={{color:"green",fontSize:20}}>{response.data.result.sentiment.document.label}</span>
+      } else if (output === "negative"){
+        output = <span style={{color:"red",fontSize:20}}>{response.data.result.sentiment.document.label}</span>
       } else {
-        output = <div style={{color:"yellow",fontSize:20}}>{response.data}</div>
+        output = <span style={{color:"yellow",fontSize:20}}>{response.data.result.sentiment.document.label}</span>
       }
       this.setState({sentimentOutput:output});
+    }).catch(err=>{
+      console.log(err);
     });
   }
 
@@ -68,12 +70,13 @@ class App extends React.Component {
     if(this.state.mode === "url") {
       url = url+"/url/emotion?url="+document.getElementById("textinput").value;
     } else {
-      url = url+"/text/emotion/?text="+document.getElementById("textinput").value;
+      url = url+"/text/emotion?text="+document.getElementById("textinput").value;
     }
-    ret = axios.get(url);
-
-    ret.then((response)=>{
-      this.setState({sentimentOutput:<EmotionTable emotions={response.data}/>});
+    ret = axios.get(url).then((response)=>{
+      console.log(response);
+      this.setState({sentimentOutput:<EmotionTable emotions={response.data.result.emotion.document.emotion}/>});
+  }).catch(err=>{
+    console.log(err);
   });
   }
   
