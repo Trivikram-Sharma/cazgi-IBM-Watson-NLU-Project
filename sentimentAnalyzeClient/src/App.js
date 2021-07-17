@@ -51,12 +51,74 @@ class App extends React.Component {
       let output = response.data.result.sentiment.document.label;
       console.log(output);
       if(output === "positive") {
-        output = <span style={{color:"green",fontSize:20}}>{response.data.result.sentiment.document.label}</span>
-      } else if (output === "negative"){
-        output = <span style={{color:"red",fontSize:20}}>{response.data.result.sentiment.document.label}</span>
-      } else {
-        output = <span style={{color:"yellow",fontSize:20}}>{response.data.result.sentiment.document.label}</span>
+        
+        
+        output = <table style={{color:"green",fontSize:20,textAlign:"center",border:"10 px"}}>
+        <tbody>
+          <tr>
+            <td style={{color:"green",textAlign:"center"}}>{response.data.result.sentiment.document.score}</td>
+            <td style={{color:"green",textAlign:"center"}} >{response.data.result.sentiment.document.label}</td>
+          </tr>
+
+        </tbody>
+
+      </table>
+        
+        /*
+        output = 
+        <table>
+        <tbody>
+          {
+        Object.entries(response.data.result.sentiment.document).map(function(mapentry){
+
+          return(
+            <tr>
+              <td style="text-align:center" color="green">{mapentry[0]}</td>
+              <td style="text-align:center" color="green">{mapentry[1]}</td>
+            </tr>
+          )
+
+
+        }) 
       }
+        </tbody></table>
+
+
+        output = <table><tr style={{color:"green",fontSize:20},{border:"5 px green"},{textAlign:"center"}}><td>{response.data.result.sentiment.document.score}</td><td>
+          {response.data.result.sentiment.document.label}</td></tr></table>
+      */} else if (output === "negative"){
+        //output = <span style={{color:"red",fontSize:20}}>{response.data.result.sentiment.document.label}</span>
+       /* output = <table><tr style={{color:"red",fontSize:20},{border:"5 px red"},{textAlign:"center"}}><td>{response.data.result.sentiment.document.score}</td><td>
+          {response.data.result.sentiment.document.label}</td></tr></table>
+      */
+          output = <table style={{color:"red",fontSize:20,textAlign:"center",border:"10 px"}}>
+          <tbody>
+            <tr>
+              <td style={{color:"red",textAlign:"center"}}>{response.data.result.sentiment.document.score}</td>
+              <td style={{color:"red",textAlign:"center"}}>{response.data.result.sentiment.document.label}</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+        
+        } else {
+        //output = <span style={{color:"yellow",fontSize:20}}>{response.data.result.sentiment.document.label}</span>
+        /*output = <table><tr style={{color:"yellow",fontSize:20},{border:"5 px yellow"},{textAlign:"center"}}><td>{response.data.result.sentiment.document.score}</td><td>
+          {response.data.result.sentiment.document.label}</td></tr></table>
+      */
+          output = <table style={{color:"yellow",fontSize:20,textAlign:"center",border:"10 px"}}>
+          <tbody>
+            <tr>
+              <td style={{color:"yellow",textAlign:"center"}}>{response.data.result.sentiment.document.score}</td>
+              <td style={{color:"yellow",textAlign:"center"}}>{response.data.result.sentiment.document.label}</td>
+            </tr>
+
+          </tbody>
+
+        </table>
+          
+        }
       this.setState({sentimentOutput:output});
     }).catch(err=>{
       console.log(err);
